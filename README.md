@@ -22,6 +22,21 @@ Other commands:
 | `npm run build` | Creates an optimized version in `dist/`, ready to host |
 | `npm run preview` | Serves that `dist/` build locally to check it |
 
+## Publishing on Hostinger
+
+The app is a plain static website, so any web hosting can serve it.
+
+1. Run `npm run zip`. It builds the app and creates `reyna-os-hostinger.zip`.
+2. In Hostinger hPanel, go to **Websites → your site → File Manager** and open `public_html`.
+   - To put the app at the main domain, upload into `public_html`. If there's an old `index.html` or `default.php` there, remove it first.
+   - To put it at a sub-address (for example `yourdomain.com/reyna`), create a folder `reyna` inside `public_html` and upload into that folder.
+3. Upload the zip, right-click it and choose **Extract**, then delete the zip.
+4. Visit the address. You should see `index.html`, `favicon.svg` and an `assets/` folder side by side.
+
+To publish an update, run `npm run zip` again and repeat steps 2–3, replacing the old files.
+
+Each visitor's quests are saved in their own browser. They aren't shared between devices or people.
+
 ## How the code is organized
 
 ```

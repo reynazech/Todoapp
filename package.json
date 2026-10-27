@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "zip": "npm run build && rm -f reyna-os-hostinger.zip && cd dist && zip -qr ../reyna-os-hostinger.zip . -x '.*'"
   },
   "dependencies": {
     "react": "^19.3.1",

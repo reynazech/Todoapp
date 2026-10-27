@@ -1,0 +1,11 @@
+# Main site: Caddy gets and renews the HTTPS certificate on its own.
+reynazech.tech {
+	root * /srv
+	encode gzip
+	file_server
+}
+
+# Send www visitors to the main address.
+www.reynazech.tech {
+	redir https://reynazech.tech{uri} permanent
+}
