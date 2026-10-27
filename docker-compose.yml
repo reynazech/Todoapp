@@ -1,15 +1,43 @@
-# Runs the site on the VPS. Ports 80/443 are the normal web ports.
+# Runs the site on the VPS using only ready-made images (no custom build).
 services:
+  # 1. Downloads the latest code from GitHub, builds it, then stops.
+  build:
+    image: node:24-alpine
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        apk add --no-cache git
+        git clone --depth 1 https://github.com/reynazech/Todoapp.git /tmp/app
+        cd /tmp/app
+        npm ci
+        npm run build
+        rm -rf /site/* /config/*
+        cp -r dist/. /site/
+        cp Caddyfile /config/Caddyfile
+    volumes:
+      - site:/site
+      - config:/config
+
+  # 2. Serves the built files on the normal web ports, with automatic HTTPS.
   web:
-    build:
-      context: https://github.com/reynazech/Todoapp.git#main
+    image: caddy:2-alpine
+    depends_on:
+      build:
+        condition: service_completed_successfully
+    command: caddy run --config /config/Caddyfile --adapter caddyfile
     ports:
       - "80:80"
       - "443:443"
     restart: unless-stopped
     volumes:
+      - site:/srv
+      - config:/config
       - caddy_data:/data
 
-# Keeps the HTTPS certificates between restarts.
 volumes:
+  site:
+  config:
+  # Keeps the HTTPS certificates between restarts.
   caddy_data:
