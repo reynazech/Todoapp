@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+/* Design tokens: these become Tailwind classes like bg-ink-900 or text-lav-300. */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink-950: #0b0912;
+  --color-ink-900: #110e1a;
+  --color-ink-850: #161222;
+  --color-ink-800: #1c172b;
+  --color-ink-700: #2a2340;
+  --color-ink-600: #3b3358;
+
+  --color-lav-100: #f1edff;
+  --color-lav-200: #e2daff;
+  --color-lav-300: #cbbcff;
+  --color-lav-400: #b09bff;
+  --color-lav-500: #9479f7;
+  --color-lav-600: #7a5ce6;
+
+  --animate-pop: pop 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --animate-toast-in: toast-in 260ms ease-out;
+  --animate-fade-in: fade-in 200ms ease-out;
+  --animate-rise: rise 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --animate-glow: glow 2.4s ease-in-out infinite;
+
+  @keyframes pop {
+    0% { transform: scale(0.6); }
+    100% { transform: scale(1); }
+  }
+  @keyframes toast-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgb(176 155 255 / 0); }
+    50% { box-shadow: 0 0 32px 4px rgb(176 155 255 / 0.25); }
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-ink-950 font-sans text-zinc-300 antialiased;
+    background-image:
+      radial-gradient(60rem 30rem at 15% -10%, rgb(122 92 230 / 0.16), transparent 60%),
+      radial-gradient(40rem 24rem at 100% 0%, rgb(176 155 255 / 0.07), transparent 60%);
+    background-attachment: fixed;
+  }
+  ::selection {
+    @apply bg-lav-500/40 text-white;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-lav-400;
+  }
+}
+
+/* Respect the "reduce motion" system setting. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}
