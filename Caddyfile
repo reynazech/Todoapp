@@ -5,7 +5,14 @@ todo.reynazech.tech {
 	file_server
 }
 
-# Send visitors of the main address (and www) to the app for now.
-reynazech.tech, www.reynazech.tech {
-	redir https://todo.reynazech.tech{uri}
+# Portfolio (github.com/reynazech/Portfolio): the "portfolio" container on this
+# Docker network, deployed from /docker/portfolio. It must be running, or the
+# main address returns a 502.
+reynazech.tech {
+	encode zstd gzip
+	reverse_proxy portfolio:3000
+}
+
+www.reynazech.tech {
+	redir https://reynazech.tech{uri} permanent
 }
